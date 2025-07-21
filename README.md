@@ -1,4 +1,4 @@
-# Grid of blocks
+# Single Snake Game
 
 View [live demo](https://grid-of-blocks.vercel.app)
 

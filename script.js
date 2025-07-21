@@ -21,31 +21,39 @@ document.addEventListener('DOMContentLoaded', () => {
   $('.grid-container').style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   $('.grid-container').style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-  const matrix = Array(maxSize).fill({});
-
-  matrix.forEach((_, index) => {
+  const matrix = Array.from({ length: maxSize }, (_, index) => {
     const x = (index % size) + 1;
     const y = Math.floor(index / size) + 1;
-    const gridItemProps = {
+    return { x, y };
+  });
+
+  matrix.forEach(({ x, y }) => {
+    const props = {
       className: 'grid-item',
       id: `x${x}_y${y}`,
-      // textContent: `${x},${y}`,
+      textContent: `${x},${y}`,
+    };
+    const gridItemProps = {
+      id: props.id,
+      className: props.className,
     };
     const gridItem = createElem('div', gridItemProps);
     $('.grid-container').appendChild(gridItem);
   });
 
   const OBSTABLE_COUNT = Math.round(Math.sqrt(maxSize));
-  const obstacles = Array(OBSTABLE_COUNT).fill({});
   const obstaclesPos = [];
 
-  obstacles.forEach((item) => {
+  // use a while loop to avoid duplicates
+  while (obstaclesPos.length < OBSTABLE_COUNT) {
     const x = getRandomNum(size);
     const y = getRandomNum(size);
     const randItemNum = `x${x}_y${y}`;
-    obstaclesPos.push({ x, y });
-    $(`#${randItemNum}`).classList.add('obstacle');
-  });
+    if (!obstaclesPos.some((item) => item.x === x && item.y === y)) {
+      obstaclesPos.push({ x, y });
+      $(`#${randItemNum}`).classList.add('obstacle');
+    }
+  }
 
   const getNextPos = (direction, x, y) => {
     const nextPosMapping = {
@@ -78,8 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const highlightRandomItem = () => {
-    const x = getRandomNum(size);
-    const y = getRandomNum(size);
+    const matrixWithoutObstacles = matrix.filter(
+      (cell) =>
+        !obstaclesPos.some((obs) => obs.x === cell.x && obs.y === cell.y),
+    );
+    const randomIndex = getRandomNum(matrixWithoutObstacles.length) - 1;
+    const { x, y } = matrixWithoutObstacles[randomIndex];
     const randItemNum = `x${x}_y${y}`;
     $('.active')?.classList.remove('active');
     $(`#${randItemNum}`).classList.add('active');
