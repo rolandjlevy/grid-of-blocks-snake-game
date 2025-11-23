@@ -90,12 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // ==== RENDER ====
   function render() {
-    console.log(
-      'Food rendered at:',
-      food,
-      document.getElementById(`x${food.x}_y${food.y}`),
-    );
-
     // Clear all but obstacles
     document.querySelectorAll('.grid-item').forEach((cell) => {
       cell.classList.remove('active', 'food');
