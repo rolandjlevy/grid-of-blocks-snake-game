@@ -2,9 +2,12 @@
   --block-width: 5px;
   --grey: #ccdddd;
   --blue: #4e82ff;
+  --green: #00aa66;
   --deep-blue: #000066;
   --lime-green: #a6ff75;
-  --red: #ff6600;
+  --red: #ff6699;
+  --pink: #ff66cc;
+  --purple: #9900ff;
   --orange: #ffcc00;
   --yellow: #ffee66;
 }
@@ -45,7 +48,10 @@ body {
   background-color: var(--red);
   color: var(--deep-blue);
 }
-
+.food {
+  background-color: var(--blue);
+  color: #fff;
+}
 .obstacle {
   background-color: white;
   opacity: 0.5;
