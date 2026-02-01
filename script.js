@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isGameActive = false;
       clearInterval(moveInterval);
       alert('Game Over!');
+      restartGame();
       return;
     }
 

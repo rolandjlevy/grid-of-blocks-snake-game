@@ -49,7 +49,7 @@ body {
   color: var(--deep-blue);
 }
 .food {
-  background-color: var(--purple);
+  background-color: var(--blue);
   color: #fff;
 }
 .obstacle {
