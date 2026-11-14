@@ -56,3 +56,43 @@ body {
   background-color: white;
   opacity: 0.5;
 }
+
+/* ==== Game-over feedback (replaces the alert() pop-ups) ==== */
+.container {
+  position: relative;
+}
+.crash {
+  background-color: var(--deep-blue);
+  opacity: 1;
+}
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shake {
+    animation: none;
+  }
+}
+.message {
+  position: absolute;
+  margin: 0;
+  padding: 12px 20px;
+  max-width: 80vw;
+  background: #fff;
+  color: var(--deep-blue);
+  border-radius: 8px;
+  font-family: sans-serif;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.message[hidden] {
+  display: none;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Version 2: AI-reviewed · Snake</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../assets/game-nav.css" />
+  </head>
+  <body>
+    <nav class="game-nav" aria-label="Site">
+      <a class="game-nav__link" href="../">← Back to the story</a>
+      <p class="game-nav__label">
+        <span class="game-nav__tag game-nav__tag--ai">Version 2</span>
+        AI-reviewed
+      </p>
+      <div class="game-nav__actions">
+        <button class="game-nav__help" type="button" popovertarget="game-help">How to play</button>
+        <a class="game-nav__link game-nav__link--switch" href="../original/"><span class="dot dot--human" aria-hidden="true"></span>Play Version 1: Hand-built →</a>
+      </div>
+    </nav>
+    <main class="container">
+      <p class="scoreboard">
+        <span>Score <strong id="score">0</strong></span>
+        <span>Best <strong id="best">0</strong></span>
+      </p>
+      <div class="board">
+        <div class="grid-container"></div>
+        <p class="message" role="status" hidden></p>
+      </div>
+      <div class="dpad" role="group" aria-label="Direction buttons">
+        <button type="button" class="dpad__btn dpad__btn--up" data-dir="arrowup" aria-label="Up"></button>
+        <button type="button" class="dpad__btn dpad__btn--left" data-dir="arrowleft" aria-label="Left"></button>
+        <button type="button" class="dpad__btn dpad__btn--right" data-dir="arrowright" aria-label="Right"></button>
+        <button type="button" class="dpad__btn dpad__btn--down" data-dir="arrowdown" aria-label="Down"></button>
+      </div>
+    </main>
+    <div class="game-help" id="game-help" popover>
+      <h2>How to play</h2>
+      <ul class="game-help__key">
+        <li><span class="swatch swatch--snake" aria-hidden="true"></span>Pink is you, the snake</li>
+        <li><span class="swatch swatch--food" aria-hidden="true"></span>Blue is food: eat it to grow</li>
+        <li><span class="swatch swatch--obstacle" aria-hidden="true"></span>Faded squares are obstacles: don't hit them, or yourself</li>
+      </ul>
+      <p>Steer with the arrow keys. On a phone or tablet, swipe or use the arrow buttons. Edges wrap around to the other side.</p>
+      <p>Each food is worth 1 point, and your best score is saved on this device.</p>
+      <p>After a crash, press Enter or Space, or tap the board, to play again.</p>
+    </div>
+    <script src="../assets/game-nav.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
