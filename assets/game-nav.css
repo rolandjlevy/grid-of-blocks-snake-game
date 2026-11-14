@@ -1,0 +1,154 @@
+/* Navigation bar shared by both game pages. Fixed-positioned so it
+   doesn't affect the game's own centred layout. */
+.game-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(0, 0, 102, 0.12);
+  font: 500 14px/1.3 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #000066;
+}
+
+.game-nav__label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-nav__tag {
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+.game-nav__tag--human {
+  background: #00aa66;
+}
+.game-nav__tag--ai {
+  background: #4e82ff;
+}
+
+.game-nav__link {
+  color: #000066;
+  text-decoration: none;
+  padding: 4px 0;
+}
+.game-nav__link:hover,
+.game-nav__link:focus-visible {
+  text-decoration: underline;
+}
+.game-nav__link--switch {
+  font-weight: 700;
+}
+
+.game-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.game-nav__help {
+  padding: 5px 12px;
+  border: 1.5px solid #000066;
+  border-radius: 2px;
+  background: transparent;
+  color: #000066;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.game-nav__help:hover,
+.game-nav__help:focus-visible {
+  background: #000066;
+  color: #fff;
+}
+
+/* "How to play" panel, opened from the nav (native popover: Esc or a click outside closes it) */
+.game-help {
+  position: fixed;
+  inset: auto;
+  top: calc(60px + env(safe-area-inset-top, 0px));
+  right: 16px;
+  width: min(340px, calc(100vw - 32px));
+  margin: 0;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: 2px;
+  background: #000066;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+.game-help h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.game-help p {
+  margin: 8px 0 0;
+}
+.game-help__key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.game-help__key li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+/* Swatches use the same colours as the game cells */
+.swatch {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.swatch--snake {
+  background: #ff6699;
+}
+.swatch--food {
+  background: #4e82ff;
+}
+.swatch--obstacle {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 560px) {
+  .game-nav__label {
+    display: none;
+  }
+}
+
+/* Version colour dot: green = Version 1 (hand-built), blue = Version 2 (AI-reviewed).
+   The white ring keeps it visible on a button of the same colour. */
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px #fff;
+  vertical-align: 1px;
+}
+.dot--human {
+  background: #00aa66;
+}
+.dot--ai {
+  background: #4e82ff;
+}

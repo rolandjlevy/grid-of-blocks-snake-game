@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Version 1: Hand-built · Snake</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Site navigation only -->
+    <link rel="stylesheet" href="../assets/game-nav.css" />
+  </head>
+  <body>
+    <nav class="game-nav" aria-label="Site">
+      <a class="game-nav__link" href="../">← Back to the story</a>
+      <p class="game-nav__label">
+        <span class="game-nav__tag game-nav__tag--human">Version 1</span>
+        Hand-built
+      </p>
+      <div class="game-nav__actions">
+        <button class="game-nav__help" type="button" popovertarget="game-help">How to play</button>
+        <a class="game-nav__link game-nav__link--switch" href="../improved/"><span class="dot dot--ai" aria-hidden="true"></span>Play Version 2: AI-reviewed →</a>
+      </div>
+    </nav>
+    <main class="container">
+      <div class="grid-container"></div>
+      <p class="message" role="status" hidden></p>
+    </main>
+    <div class="game-help" id="game-help" popover>
+      <h2>How to play</h2>
+      <ul class="game-help__key">
+        <li><span class="swatch swatch--snake" aria-hidden="true"></span>Pink is you, the snake</li>
+        <li><span class="swatch swatch--food" aria-hidden="true"></span>Blue is food: eat it to grow</li>
+        <li><span class="swatch swatch--obstacle" aria-hidden="true"></span>Faded squares are obstacles: don't hit them, or yourself</li>
+      </ul>
+      <p>Steer with the arrow keys. Edges wrap around to the other side.</p>
+      <p>Original code, bugs and all.</p>
+    </div>
+    <script src="../assets/game-nav.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

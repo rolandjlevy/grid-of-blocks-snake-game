@@ -88,6 +88,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const idx = Math.floor(Math.random() * open.length);
     return open[idx];
   }
+  // ==== MESSAGES ====
+  // Non-blocking on-screen message (replaces the original alert() pop-ups)
+  const RESTART_DELAY = 1200;
+  const messageEl = $('.message');
+  let messageTimeout = null;
+  function showMessage(text, duration) {
+    clearTimeout(messageTimeout);
+    messageEl.textContent = text;
+    messageEl.hidden = false;
+    messageTimeout = setTimeout(() => (messageEl.hidden = true), duration);
+  }
+  // Highlight the cell the snake hit and give the board a short shake
+  function showCrash({ x, y }) {
+    const cell = document.getElementById(`x${x}_y${y}`);
+    if (cell) cell.classList.add('crash');
+    const grid = $('.grid-container');
+    grid.classList.remove('shake');
+    void grid.offsetWidth; // restart the animation if it's already applied
+    grid.classList.add('shake');
+  }
+
   // ==== RENDER ====
   function render() {
     // Clear all but obstacles
@@ -121,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       render();
     } else {
       // Snake fills all free spots: you've won!
-      alert('Congratulations! You filled the grid!');
+      showMessage('Congratulations! You filled the grid!', RESTART_DELAY);
     }
   }
 
@@ -136,10 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check for collision
     if (inObstacles(newHead) || inSnake(newHead)) {
-      isGameActive = false;
+      // isGameActive stays true, as before: the game still restarts by itself,
+      // so the Enter/Space restart below remains unreachable (one of the original bugs)
       clearInterval(moveInterval);
-      alert('Game Over!');
-      restartGame();
+      showCrash(newHead);
+      showMessage('Game over!', RESTART_DELAY);
+      setTimeout(restartGame, RESTART_DELAY);
       return;
     }
 
@@ -183,9 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function restartGame() {
     // Remove all stateful classes except obstacles
-    $all('.active, .food').forEach((cell) =>
-      cell.classList.remove('active', 'food'),
+    $all('.active, .food, .crash').forEach((cell) =>
+      cell.classList.remove('active', 'food', 'crash'),
     );
+    $('.grid-container').classList.remove('shake');
     isGameActive = true;
     nextDir = 'arrowright';
     currentDir = 'arrowright';

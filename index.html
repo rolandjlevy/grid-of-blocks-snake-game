@@ -1,15 +1,288 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Single Snake Game</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Snake, Before &amp; After AI</title>
+    <meta
+      name="description"
+      content="One snake game, two versions: hand-built with no AI, and the same game after an AI code review. Play both and see what changed."
+    />
+    <meta property="og:title" content="Snake, Before & After AI" />
+    <meta
+      property="og:description"
+      content="I built a game by hand, then asked AI to review it. Play both versions and see what it found."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" />
+    <link rel="stylesheet" href="assets/landing.css" />
   </head>
   <body>
-    <main class="container">
-      <div class="grid-container"></div>
+    <header class="hero wrap">
+      <div class="hero__text">
+        <h1>I built a game by hand. Then I asked AI to review it.</h1>
+        <p class="lede">
+          One snake game, two versions. Version 1 is my hand-built original, with no AI
+          involved, bugs and all. Version 2 is the result of an AI code review that I
+          directed, checked and approved. Play both and see what changed.
+        </p>
+        <p class="actions">
+          <a class="btn btn--secondary" href="original/">
+            <span class="btn__title"><span class="dot dot--human" aria-hidden="true"></span>Play Version 1</span>
+            <span class="btn__sub">Hand-built</span>
+          </a>
+          <a class="btn" href="improved/">
+            <span class="btn__title"><span class="dot dot--ai" aria-hidden="true"></span>Play Version 2</span>
+            <span class="btn__sub">AI-reviewed</span>
+          </a>
+        </p>
+      </div>
+      <figure class="hero__visual" aria-hidden="true">
+        <div class="demo-window">
+          <div class="demo-grid" id="demo-grid"></div>
+        </div>
+      </figure>
+    </header>
+
+    <main>
+      <section class="section wrap" id="problem">
+        <h2>Why AI code is “almost right, but not quite”</h2>
+        <div class="prose">
+          <p>
+            AI coding tools are everywhere: 84% of developers in
+            <a href="https://survey.stackoverflow.co/2025/ai">Stack Overflow's 2025 survey</a>
+            use them or plan to. But more of those developers distrust the accuracy of what
+            the tools produce (46%) than trust it (33%), and their biggest frustration, named
+            by 66%, is code that's “almost right, but not quite”. That gap is expensive, and
+            hard to see from the inside. In a
+            <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">randomised trial by METR</a>,
+            experienced open-source developers took <strong>19% longer</strong> to finish
+            tasks when they used AI, while believing it had made them
+            <strong>about 20% faster</strong>.
+          </p>
+          <p>
+            It isn't only about speed.
+            <a href="https://www.veracode.com/press-release/ai-generated-code-poses-major-security-risks-in-nearly-half-of-all-development-tasks-veracode-research-reveals/">Veracode tested more than 100 AI models</a>
+            and found they chose an insecure way of writing code 45% of the time. And
+            <a href="https://www.gitclear.com/ai_assistant_code_quality_2025_research">GitClear's analysis of 211 million changed lines</a>
+            found that copy-pasted code now outstrips code that's been tidied up and reused,
+            for the first time. The common thread is unchecked output: code produced quickly
+            and accepted without enough scrutiny. This project flips that around. I wrote the
+            code, used AI to scrutinise it, and checked every finding myself.
+          </p>
+        </div>
+      </section>
+
+      <section class="section wrap" id="angle">
+        <h2>AI didn't write this game. It read it.</h2>
+        <p class="intro">
+          Most talk about AI and code is about writing more of it, faster. I think the more
+          useful skill is the opposite: using AI to read code you already have, find what
+          you missed, and fix it without losing what made it yours. The engineer's job
+          moves from typing to judgement.
+        </p>
+
+        <ol class="steps">
+          <li class="step step--me">
+            <h3>Build <span class="who">me</span></h3>
+            <p>I designed and hand-coded the game: grid, obstacles, food, growth and auto-move.</p>
+          </li>
+          <li class="step step--ai">
+            <h3>Review <span class="who">AI</span></h3>
+            <p>I asked Claude to check the logic. It traced each code path and reported 6 bugs, ranked by impact.</p>
+          </li>
+          <li class="step step--me">
+            <h3>Decide <span class="who">me</span></h3>
+            <p>I read the findings and chose what to fix, and kept Version 1's bugs in place for comparison.</p>
+          </li>
+          <li class="step step--ai">
+            <h3>Fix &amp; test <span class="who">AI</span></h3>
+            <p>It rewrote the game logic and tested it in a simulated browser, including 1,000 random games.</p>
+          </li>
+          <li class="step step--me">
+            <h3>Own it <span class="who">me</span></h3>
+            <p>I play it, check it and ship it. The judgement, and the result, are still mine.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section wrap" id="findings">
+        <h2>Six bugs I'd never noticed</h2>
+        <p class="intro">
+          Every one of these is still in Version 1. Most hide in edge cases you'd only hit
+          by luck, which is exactly why a second pair of eyes helps.
+        </p>
+
+        <ol class="findings">
+          <li class="finding">
+            <div>
+              <p class="severity severity--high">Game-breaking</p>
+              <h3>The game could start already lost</h3>
+              <p>
+                Obstacles were placed at random, sometimes right in front of the snake. It
+                crashed on the first move, restarted in the same spot and crashed again,
+                forever. Roughly 1 in 30 page loads.
+              </p>
+            </div>
+            <p class="fix">Obstacles keep clear of the start and the path ahead, and move on every restart.</p>
+          </li>
+
+          <li class="finding">
+            <div>
+              <p class="severity severity--mid">Broken feature</p>
+              <h3>The restart key never worked</h3>
+              <p>
+                The code had an Enter-to-restart handler, but the game restarted itself
+                before you could ever press it, so that branch could never run.
+              </p>
+              <details>
+                <summary>Show the code</summary>
+                <pre><code><span class="c">// On a crash</span>
+alert('Game Over!');
+restartGame();   <span class="c">// sets isGameActive = true</span>
+
+<span class="c">// In the key handler</span>
+if (!isGameActive &amp;&amp; key === 'enter') {
+  restartGame(); <span class="c">// never runs</span>
+}</code></pre>
+              </details>
+            </div>
+            <p class="fix">A crash now pauses the game. Enter or Space starts a new one.</p>
+          </li>
+
+          <li class="finding">
+            <div>
+              <p class="severity severity--mid">Wrong outcome</p>
+              <h3>Winning ended in "Game Over"</h3>
+              <p>
+                Filling the board showed a congratulations message, but the game kept
+                running, so the very next move crashed into the snake. You won and lost in
+                the same second.
+              </p>
+            </div>
+            <p class="fix">Winning stops the game.</p>
+          </li>
+
+          <li class="finding">
+            <div>
+              <p class="severity severity--low">Edge case</p>
+              <h3>A URL could break the board</h3>
+              <p>
+                The board size comes from <code>?size=</code> in the URL, with no checks. In
+                Version 1, <code>?size=1</code> makes you "win" instantly, then lose, then
+                win, forever. <a href="original/?size=1">See it happen</a>.
+              </p>
+            </div>
+            <p class="fix">
+              Sizes are rounded and kept between 5 and 100.
+              <a href="improved/?size=1">Try <code>?size=1</code> in Version 2</a>.
+            </p>
+          </li>
+
+          <li class="finding">
+            <div>
+              <p class="severity severity--low">Game feel</p>
+              <h3>Quick turns were lost</h3>
+              <p>
+                Only one turn could wait for the next move. Press Up then Left quickly and
+                Left was ignored, so tight turns felt unresponsive.
+              </p>
+            </div>
+            <p class="fix">Up to 3 key presses are queued and each one counts.</p>
+          </li>
+
+          <li class="finding">
+            <div>
+              <p class="severity severity--low">Game rules</p>
+              <h3>Chasing your tail was fatal</h3>
+              <p>
+                Moving into the square your tail was leaving counted as a crash, even though
+                the tail moves out of the way on the same step.
+              </p>
+            </div>
+            <p class="fix">Allowed now, as in most snake games, unless the snake is eating.</p>
+          </li>
+        </ol>
+
+        <p class="aside">
+          <strong>Under the hood:</strong> Version 1 redrew all 900 cells on every move.
+          Version 2 updates only the cells that change, and uses fast lookups for
+          collisions, so it stays smooth on boards of up to 10,000 cells.
+        </p>
+      </section>
+
+      <section class="section wrap" id="proof">
+        <h2>Trust, but verify</h2>
+        <dl class="stats">
+          <div class="stat">
+            <dt>bugs fixed</dt>
+            <dd>6</dd>
+          </div>
+          <div class="stat">
+            <dt>random games tested, with no instant crashes</dt>
+            <dd>1,000</dd>
+          </div>
+          <div class="stat">
+            <dt>cells redrawn per move, down from 900</dt>
+            <dd>≤&nbsp;3</dd>
+          </div>
+          <div class="stat">
+            <dt>Version 1 games that crashed on the very first move</dt>
+            <dd>1 in 31</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="section wrap" id="play">
+        <h2>Pick a version</h2>
+        <div class="choices">
+          <a class="choice choice--human" href="original/">
+            <span class="choice__label">Version 1 · no AI</span>
+            <h3>Hand-built</h3>
+            <p>
+              The game as I wrote it, bugs and all. See whether you can find any of the
+              six. (One change: the pop-up alerts are now on-screen messages.)
+            </p>
+            <span class="choice__cta">Play Version 1</span>
+          </a>
+          <a class="choice choice--ai" href="improved/">
+            <span class="choice__label">Version 2 · human + AI</span>
+            <h3>AI-reviewed</h3>
+            <p>
+              Same idea, same look, after the review: fair starts, a working restart,
+              sharper controls and faster rendering. Now with a score, and playable on
+              phones.
+            </p>
+            <span class="choice__cta">Play Version 2</span>
+          </a>
+        </div>
+        <p class="note">
+          Steer with the arrow keys. On a phone or tablet, Version 2 has swipe and
+          on-screen controls; Version 1 needs a keyboard.
+        </p>
+      </section>
+
+      <section class="section wrap">
+        <blockquote class="takeaway">
+          <p>
+            AI made this faster, but the parts that mattered were knowing what to ask,
+            checking the answers, and deciding what to keep.
+          </p>
+        </blockquote>
+      </section>
     </main>
-    <script src="script.js"></script>
+
+    <footer class="footer wrap">
+      <p>
+        <span>Made by Roland Levy <span id="year">2026</span></span>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/rolandjlevy/grid-of-blocks-snake-game">Source on GitHub</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://rolandlevy.co.uk/">See more of my projects</a>
+      </p>
+    </footer>
+
+    <script src="assets/landing.js"></script>
   </body>
 </html>
