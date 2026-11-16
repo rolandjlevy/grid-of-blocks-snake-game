@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Leave room for the safe zone plus at least one free cell for food
     const count = Math.min(
-      Math.round(Math.sqrt(maxSize)),
+      Math.round(size/2);
       maxSize - safeKeys.size - 1,
     );
     while (obstacles.size < count) {
