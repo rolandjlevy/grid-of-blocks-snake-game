@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.grid-container').appendChild(createElem('div', gridItemProps));
   });
 
-  const OBSTACLE_COUNT = size;
+  const OBSTACLE_COUNT = Math.round(size/2);
   const obstaclesPos = [];
 
   // Place obstacles, avoiding duplicates
