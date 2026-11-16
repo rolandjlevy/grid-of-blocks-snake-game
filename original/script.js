@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const DEFAULT_SIZE = 30;
   const size = getSearchParamValue('size') || DEFAULT_SIZE;
-  const maxSize = size * size;
+  const maxSize = Math.round((size * size)/2);
 
   $('.grid-container').style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   $('.grid-container').style.gridTemplateRows = `repeat(${size}, 1fr)`;
